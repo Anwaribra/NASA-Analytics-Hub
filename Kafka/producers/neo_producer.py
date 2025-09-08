@@ -1,9 +1,17 @@
 import asyncio
+import os
 import requests
 from datetime import datetime, timezone
-from base_producer import BaseProducer
+import sys
+
+
+# this to allows importing from the kafka package
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+from Kafka.producers.base_producer import BaseProducer
+
 
 TOPIC = "nasa.neo"
+
 
 async def run():
     async with BaseProducer(TOPIC) as producer:
@@ -19,7 +27,7 @@ async def run():
             }
 
             await producer.send_message(message)
-            await asyncio.sleep(60)  
+            await asyncio.sleep(60)     
 
 if __name__ == "__main__":
     asyncio.run(run())

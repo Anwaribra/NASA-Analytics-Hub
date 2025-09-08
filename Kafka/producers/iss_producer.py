@@ -1,7 +1,10 @@
 import asyncio
+import os
 import requests
 from datetime import datetime, timezone
-from base_producer import BaseProducer
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+from Kafka.producers.base_producer import BaseProducer
 
 TOPIC = "nasa.iss"
 
@@ -22,4 +25,4 @@ async def run():
             await asyncio.sleep(30) 
 
 if __name__ == "__main__":
-    asyncio.run(produce())
+    asyncio.run(run())
