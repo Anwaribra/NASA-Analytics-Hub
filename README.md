@@ -99,14 +99,3 @@ graph LR
 - Data pipeline latency tracking
 - Error rate monitoring
 
-## Future Enhancements
-
-1. Add real-time alerting for:
-   - Hazardous NEOs near ISS
-   - Severe Earth events
-   - Data pipeline issues
-
-2. Implement:
-   - Machine learning for event prediction
-   - Automated reporting
-   - API for data access
