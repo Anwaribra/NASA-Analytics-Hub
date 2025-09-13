@@ -43,13 +43,12 @@ def insert_into_snowflake(topic, message):
 
         elif topic == "nasa.iss":
             sql = """
-                INSERT INTO ISS_EVENTS (EVENT_TIME, POSITION_DATA, MESSAGE)
-                SELECT %s, PARSE_JSON(%s), %s
+                INSERT INTO ISS_EVENTS (EVENT_TIME, DATA)
+                SELECT %s, PARSE_JSON(%s)
             """
             cur.execute(sql, (
-                message["timestamp"], 
-                json.dumps(message["iss_position"]),
-                message["message"]
+                message["timestamp"],
+                json.dumps(message)  
             ))
 
         conn.commit()

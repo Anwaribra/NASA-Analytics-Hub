@@ -1,6 +1,38 @@
 version: 2
 
 models:
+  - name: iss_trajectory
+    description: >
+      Hourly analysis of ISS trajectory, including position statistics,
+      distance traveled, and speed calculations.
+    columns:
+      - name: hour
+        description: Hour of the analysis (truncated from EVENT_TIME)
+        tests:
+          - not_null
+          - unique
+      - name: position_count
+        description: Number of position readings in this hour
+        tests:
+          - not_null
+      - name: avg_latitude
+        description: Average latitude during this hour
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: -90
+              max_value: 90
+      - name: avg_longitude
+        description: Average longitude during this hour
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: -180
+              max_value: 180
+      - name: total_distance_km
+        description: Total distance traveled during this hour in kilometers
+      - name: estimated_speed_kph
+        description: Estimated average speed in kilometers per hour
   - name: hazard_analysis
     description: >
       Combined analysis of Earth and space hazards, including NEO approaches and

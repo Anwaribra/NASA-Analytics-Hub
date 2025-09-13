@@ -1,12 +1,20 @@
 WITH source AS (
     SELECT *
     FROM {{ source('nasa', 'ISS_EVENTS') }}
+),
+
+parsed_data AS (
+    SELECT
+        EVENT_TIME,
+        PARSE_JSON(DATA) as json_data
+    FROM source
 )
 
 SELECT
     EVENT_TIME,
-    PARSE_JSON(DATA):iss_position:latitude::FLOAT as LATITUDE,
-    PARSE_JSON(DATA):iss_position:longitude::FLOAT as LONGITUDE,
-    PARSE_JSON(DATA):message::STRING as MESSAGE,
+    json_data:iss_position:latitude::FLOAT as LATITUDE,
+    json_data:iss_position:longitude::FLOAT as LONGITUDE,
+    json_data:message::STRING as MESSAGE,
     EVENT_TIME as INGESTED_AT
-FROM source
+FROM parsed_data
+WHERE json_data:iss_position IS NOT NULL
