@@ -1,0 +1,71 @@
+version: 2
+
+sources:
+  - name: nasa
+    database: NASA_DATA
+    schema: public
+    tables:
+      - name: EONET_EVENTS
+        description: EONET events data from NASA API
+        columns:
+          - name: EVENT_TIME
+            description: Event timestamp
+            tests:
+              - not_null
+          - name: DATA
+            description: JSON data containing event details
+            tests:
+              - not_null
+
+      - name: ISS_EVENTS
+        description: ISS location data from NASA API
+        columns:
+          - name: EVENT_TIME
+            description: Event timestamp
+            tests:
+              - not_null
+          - name: DATA
+            description: JSON data containing ISS position
+            tests:
+              - not_null
+          - name: MESSAGE
+            description: Status message
+
+      - name: NEO_EVENTS
+        description: Near Earth Objects data from NASA API
+        columns:
+          - name: EVENT_TIME
+            description: Event timestamp
+            tests:
+              - not_null
+          - name: DATA
+            description: JSON data containing NEO details
+            tests:
+              - not_null
+
+models:
+  - name: stg_eonet_events
+    description: Staged EONET events with parsed JSON fields
+    columns:
+      - name: EVENT_ID
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_iss_events
+    description: Staged ISS position data
+    columns:
+      - name: LATITUDE
+        tests:
+          - not_null
+      - name: LONGITUDE
+        tests:
+          - not_null
+
+  - name: stg_neo_events
+    description: Staged NEO data with flattened arrays
+    columns:
+      - name: NEO_ID
+        tests:
+          - unique
+          - not_null

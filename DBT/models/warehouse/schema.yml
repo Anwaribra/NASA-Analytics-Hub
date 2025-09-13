@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: fact_eonet_events
+    description: >
+      Flattened EONET events with categories and geometries, providing a detailed view
+      of Earth events like wildfires, storms, and volcanic activity.
+    columns:
+      - name: EVENT_TIME
+        description: Timestamp when the event was recorded
+        tests:
+          - not_null
+      - name: EVENT_ID
+        description: Unique identifier for the event
+        tests:
+          - unique
+          - not_null
+      - name: category_title
+        description: Category of the event (e.g., Wildfires, Severe Storms)
+      - name: geometry_type
+        description: Type of geometry data (e.g., Point, Polygon)
+      - name: longitude
+        description: Event longitude coordinate
+      - name: latitude
+        description: Event latitude coordinate
+      - name: geometry_date
+        description: Date when the geometry was recorded
+
+  - name: fact_iss_neo_proximity
+    description: >
+      Analysis of Near Earth Objects (NEOs) in relation to the International Space Station's
+      position, helping identify potential close approaches and hazards.
+    columns:
+      - name: EVENT_TIME
+        description: Timestamp of the observation
+        tests:
+          - not_null
+      - name: ISS_LATITUDE
+        description: ISS latitude at time of observation
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: -90
+              max_value: 90
+      - name: ISS_LONGITUDE
+        description: ISS longitude at time of observation
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: -180
+              max_value: 180
+      - name: NEO_ID
+        description: Unique identifier for the Near Earth Object
+      - name: NEO_NAME
+        description: Name of the Near Earth Object
+      - name: IS_POTENTIALLY_HAZARDOUS
+        description: Whether the NEO is classified as potentially hazardous
+      - name: MISS_DISTANCE_KM
+        description: Distance between NEO and Earth in kilometers
+      - name: VELOCITY_KPH
+        description: NEO velocity in kilometers per hour

@@ -1,0 +1,26 @@
+# DBT
+target/
+dbt_packages/
+logs/
+
+.env
+.env.*
+
+
+
+profiles.yml
+dbt_project.yml
+seeds/
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+.env/
+.venv/
+
+.idea/
+.vscode/
+*.swp
+*.swo

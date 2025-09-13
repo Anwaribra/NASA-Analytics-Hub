@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: hazard_analysis
+    description: >
+      Combined analysis of Earth and space hazards, including NEO approaches and
+      Earth events, providing a comprehensive view of potential risks.
+    columns:
+      - name: EVENT_DATE
+        description: Date of the analysis
+        tests:
+          - not_null
+      - name: HAZARDOUS_NEO_COUNT
+        description: Number of potentially hazardous NEOs on this date
+      - name: AVG_MISS_DISTANCE_KM
+        description: Average miss distance of NEOs in kilometers
+      - name: MAX_NEO_VELOCITY_KPH
+        description: Maximum velocity of any NEO on this date
+      - name: EARTH_EVENT_COUNT
+        description: Number of Earth events (from EONET) on this date
+      - name: CLOSED_EVENT_COUNT
+        description: Number of Earth events that have been marked as closed
+      - name: FIRST_INGESTION
+        description: First data point received for this date
+      - name: LAST_INGESTION
+        description: Most recent data point received for this date
+  - name: event_analysis
+    description: >
+      Monthly analysis of EONET events by category, including event counts,
+      geographic distribution, and temporal patterns.
+    columns:
+      - name: category_title
+        description: Category of the EONET event (e.g., Wildfires, Severe Storms)
+        tests:
+          - not_null
+      - name: event_month
+        description: Month of the events (truncated from EVENT_TIME)
+        tests:
+          - not_null
+      - name: event_count
+        description: Total number of events in this category and month
+      - name: closed_events
+        description: Number of events that have been marked as closed
+      - name: avg_longitude
+        description: Average longitude of events in this category and month
+      - name: avg_latitude
+        description: Average latitude of events in this category and month
+      - name: first_event
+        description: Timestamp of the first event in this category and month
+      - name: last_event
+        description: Timestamp of the last event in this category and month
+      - name: first_ingestion
+        description: When we first received data for this category and month
+      - name: last_ingestion
+        description: When we last received data for this category and month
