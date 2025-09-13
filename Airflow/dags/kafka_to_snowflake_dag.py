@@ -10,7 +10,16 @@ from airflow.utils.task_group import TaskGroup
 import sys
 import asyncio
 import logging
-from Kafka.producers.eonet_producer import run as run_eonet
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+try:
+    from Kafka.producers.eonet_producer import run as run_eonet
+    logger.debug("Successfully imported eonet_producer")
+except Exception as e:
+    logger.error(f"Error importing eonet_producer: {str(e)}")
 from Kafka.producers.neo_producer import run as run_neo
 from Kafka.producers.iss_producer import run as run_iss
 from Kafka.consumers.snowflake_consumer import consume as run_consumer
