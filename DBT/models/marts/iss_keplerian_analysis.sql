@@ -8,19 +8,18 @@ keplerian_analysis AS (
         EVENT_TIME,
         LATITUDE,
         LONGITUDE,
-        -- Extract orbital elements from JSON
-        json_data:orbital_elements:semi_major_axis::FLOAT as semi_major_axis,
-        json_data:orbital_elements:eccentricity::FLOAT as eccentricity,
-        json_data:orbital_elements:inclination::FLOAT as inclination,
-        json_data:orbital_elements:velocity::FLOAT as velocity,
-        json_data:orbital_elements:period::FLOAT as orbital_period,
-        json_data:orbital_elements:position_vector:x::FLOAT as pos_x,
-        json_data:orbital_elements:position_vector:y::FLOAT as pos_y,
-        json_data:orbital_elements:position_vector:z::FLOAT as pos_z,
+        SEMI_MAJOR_AXIS,
+        ECCENTRICITY,
+        INCLINATION,
+        VELOCITY,
+        ORBITAL_PERIOD,
+        POSITION_X,
+        POSITION_Y,
+        POSITION_Z,
         -- Calculate specific angular momentum (h = r × v)
-        SQRT(POWER(pos_y * velocity, 2) + POWER(pos_x * velocity, 2)) as angular_momentum,
+        SQRT(POWER(POSITION_Y * VELOCITY, 2) + POWER(POSITION_X * VELOCITY, 2)) as angular_momentum,
         -- Calculate orbital energy (ε = -μ/2a)
-        -3.986004418e14 / (2 * semi_major_axis) as orbital_energy
+        -3.986004418e14 / (2 * SEMI_MAJOR_AXIS) as orbital_energy
     FROM iss_data
 ),
 
