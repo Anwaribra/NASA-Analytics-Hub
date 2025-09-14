@@ -99,73 +99,6 @@ graph LR
 - Data pipeline latency tracking
 - Error rate monitoring
 
-## Machine Learning Models
-
-### 1. Event Classification
-
-The event classification model categorizes Earth events (from EONET) based on their characteristics:
-
-- **Model Type**: Random Forest Classifier
-- **Features**:
-  - Temporal: Month, Day of Year, Season
-  - Spatial: Latitude, Longitude, Region
-  - Event-specific: Source, Geometry Type
-- **Performance Metrics**:
-  - Cross-validation accuracy
-  - Classification report by event type
-  - Feature importance analysis
-
-### 2. NEO Hazard Prediction
-
-Predicts potentially hazardous asteroids using physical and orbital characteristics:
-
-- **Model Type**: Random Forest Regressor
-- **Features**:
-  - Physical: Diameter (min, max, avg), Diameter Ratio
-  - Orbital: Velocity, Miss Distance, Distance-Velocity Ratio
-  - Derived: Kinetic Energy
-- **Performance Metrics**:
-  - Mean Squared Error (MSE)
-  - Mean Absolute Error (MAE)
-  - R² Score
-
-### 3. Time Series Forecasting
-
-Multiple Prophet models for forecasting various NEO metrics:
-
-- **Metrics Forecasted**:
-  - Daily NEO Count
-  - Hazardous NEO Count
-  - Average Miss Distance
-  - Average Velocity
-- **Model Features**:
-  - Yearly, Weekly, Monthly Seasonality
-  - Custom Regressors
-  - Changepoint Detection
-- **Validation**:
-  - Rolling Window Validation
-  - MAPE (Mean Absolute Percentage Error)
-  - Cross-validation
-
-### Model Monitoring
-
-Continuous monitoring of model performance:
-
-1. **Performance Tracking**:
-   - Error metrics stored in Snowflake
-   - Actual vs Predicted comparisons
-   - Error thresholds for retraining
-
-2. **Data Quality**:
-   - Missing value detection
-   - Outlier identification
-   - Data drift monitoring
-
-3. **Model Artifacts**:
-   - Serialized models
-   - Feature scalers
-   - Label encoders
-
 ## Future Enhancements
 
 1. Add real-time alerting for:
@@ -173,12 +106,7 @@ Continuous monitoring of model performance:
    - Severe Earth events
    - Data pipeline issues
 
-2. Improve ML models:
-   - Deep learning for event classification
-   - Ensemble methods for hazard prediction
-   - Automated model retraining
-
-3. Implement:
-   - A/B testing for model variants
-   - Model explainability (SHAP values)
-   - API for predictions
+2. Implement:
+   - Machine learning for event prediction
+   - Automated reporting
+   - API for data access
