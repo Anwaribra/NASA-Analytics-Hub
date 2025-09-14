@@ -98,5 +98,3 @@ graph LR
 - Consumer group health checks
 - Data pipeline latency tracking
 - Error rate monitoring
-
-
