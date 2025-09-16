@@ -45,56 +45,76 @@ graph LR
     end
 ```
 
-## Data Flow
+## Project Components
 
-1. **Data Collection (Producers)**
-   - ISS Producer: Fetches ISS location every 30 seconds
-   - EONET Producer: Collects Earth events (wildfires, storms, etc.)
-   - NEO Producer: Gathers Near Earth Object data
+### 1. Data Collection (Kafka Producers)
+- **ISS Producer** (`Kafka/producers/iss_producer.py`)
+  - Fetches ISS location every 30 seconds
+  - Tracks position, velocity, and orbital parameters
+  
+- **EONET Producer**
+  - Collects Earth events (wildfires, storms, etc.)
+  - Includes event categories, geometries, and sources
+  
+- **NEO Producer**
+  - Gathers Near Earth Object data
+  - Tracks potentially hazardous asteroids
 
-2. **Data Transport (Kafka)**
-   - Three topics: nasa.iss, nasa.eonet, nasa.neo
-   - Ensures reliable message delivery
-   - Handles backpressure and scalability
+### 2. Data Processing (DBT)
 
-3. **Data Storage (Snowflake)**
-   - Raw data stored in variant columns
-   - Separate tables for each data type
-   - Maintains data lineage
+#### Staging Models
+- `stg_iss_events`: Clean ISS position data
+  - Position (lat/long)
+  - Timestamp
+  - Message data
+  
+- `stg_eonet_events`: Parsed Earth events
+  - Event details
+  - Categories
+  - Geometries
+  
+- `stg_neo_events`: Structured NEO data
+  - Object properties
+  - Hazard assessment
+  - Approach data
 
-4. **Data Transformation (DBT)**
-   - Staging: Clean and type-cast raw data
-   - Warehouse: Join and enrich data
-   - Marts: Business-specific analytics
+#### Warehouse Models
+- `fact_eonet_events`: Detailed event analysis
+  - Event categorization
+  - Geographic data
+  - Time series analysis
+  
+- `fact_iss_neo_proximity`: ISS and NEO correlations
+  - Proximity calculations
+  - Risk assessment
+  - Trajectory analysis
+
+#### Mart Models
+- `event_analysis`: Event patterns and trends
+- `hazard_analysis`: Combined Earth and space hazards
+- `iss_trajectory`: ISS movement analysis
+- `iss_keplerian_analysis`: Orbital mechanics analysis
+
+### 3. Machine Learning Models
+
+#### Event Classification (`ML/event_classification.ipynb`)
+- Classifies Earth events by type
+- Features:
+  - Geographic location
+  - Temporal patterns
+  - Event characteristics
+- Model metrics and validation
+
+#### ISS Orbital Analysis (`ML/iss_orbital_analysis.ipynb`)
+- Analyzes ISS orbital dynamics
+- Kepler's laws verification
+- Orbital stability assessment
+- Trajectory prediction
 
 
+## Documentation
 
-## Analytics Models
+- [Data Model](docs/data_model.md): Detailed data model documentation
+- DBT documentation: Generated docs for data transformations
+- Model documentation: ML model specifications and performance
 
-1. **Staging Models**
-   - `stg_iss_events`: Clean ISS position data
-   - `stg_eonet_events`: Parsed Earth events
-   - `stg_neo_events`: Structured NEO data
-
-2. **Warehouse Models**
-   - `fact_eonet_events`: Detailed event analysis
-   - `fact_iss_neo_proximity`: ISS and NEO correlations
-
-3. **Mart Models**
-   - `event_analysis`: Event patterns and trends
-   - `hazard_analysis`: Combined Earth and space hazards
-   - `iss_trajectory`: ISS movement analysis
-
-## Data Quality
-
-- Tests for critical fields (coordinates, IDs)
-- Range validations for latitude/longitude
-- Null checks for required fields
-- Data freshness monitoring
-
-## Monitoring
-
-- Kafka topic lag monitoring
-- Consumer group health checks
-- Data pipeline latency tracking
-- Error rate monitoring
